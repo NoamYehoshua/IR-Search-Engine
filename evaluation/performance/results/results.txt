@@ -1,0 +1,78 @@
+[BM25 only (no PageRank)] Q01  P@5=0.200  P@10=0.200  F1@30=0.132  HM=0.159  | Mount Everest climbing expeditions
+[BM25 only (no PageRank)] Q02  P@5=0.600  P@10=0.600  F1@30=0.377  HM=0.463  | Great Fire of London 1666
+[BM25 only (no PageRank)] Q03  P@5=0.600  P@10=0.400  F1@30=0.278  HM=0.380  | Nanotechnology materials science
+[BM25 only (no PageRank)] Q04  P@5=0.200  P@10=0.100  F1@30=0.143  HM=0.167  | Fossil fuels climate change
+[BM25 only (no PageRank)] Q05  P@5=0.800  P@10=0.900  F1@30=0.507  HM=0.621  | DNA double helix discovery
+[BM25 only (no PageRank)] Q06  P@5=1.000  P@10=1.000  F1@30=0.466  HM=0.636  | Printing press invention Gutenberg
+[BM25 only (no PageRank)] Q07  P@5=0.000  P@10=0.100  F1@30=0.125  HM=0.000  | Ancient Egypt pyramids pharaohs
+[BM25 only (no PageRank)] Q08  P@5=0.800  P@10=0.600  F1@30=0.361  HM=0.498  | Gothic literature Mary Shelley
+[BM25 only (no PageRank)] Q09  P@5=0.800  P@10=0.500  F1@30=0.274  HM=0.408  | Robotics automation industry
+[BM25 only (no PageRank)] Q10  P@5=0.000  P@10=0.000  F1@30=0.025  HM=0.000  | Television invention broadcast media
+[BM25 only (no PageRank)] Q11  P@5=0.400  P@10=0.600  F1@30=0.432  HM=0.416  | Wright brothers first flight
+[BM25 only (no PageRank)] Q12  P@5=0.000  P@10=0.000  F1@30=0.000  HM=0.000  | Steam locomotive transportation history
+[BM25 only (no PageRank)] Q13  P@5=0.200  P@10=0.100  F1@30=0.203  HM=0.201  | Currency history gold standard
+[BM25 only (no PageRank)] Q14  P@5=0.400  P@10=0.300  F1@30=0.160  HM=0.229  | Renaissance art Leonardo da Vinci
+[BM25 only (no PageRank)] Q15  P@5=0.200  P@10=0.300  F1@30=0.278  HM=0.233  | Shakespeare plays Elizabethan theatre
+[BM25 only (no PageRank)] Q16  P@5=0.800  P@10=0.500  F1@30=0.184  HM=0.299  | Solar eclipse astronomy observation
+[BM25 only (no PageRank)] Q17  P@5=0.200  P@10=0.200  F1@30=0.184  HM=0.192  | Renaissance architecture Florence Italy
+[BM25 only (no PageRank)] Q18  P@5=0.400  P@10=0.600  F1@30=0.464  HM=0.430  | Impressionism Monet Renoir
+[BM25 only (no PageRank)] Q19  P@5=0.800  P@10=0.600  F1@30=0.351  HM=0.488  | Samurai code Bushido Japan
+[BM25 only (no PageRank)] Q20  P@5=0.800  P@10=0.600  F1@30=0.338  HM=0.475  | Fossil record paleontology evidence
+[BM25 only (no PageRank)] Q21  P@5=0.600  P@10=0.700  F1@30=0.286  HM=0.387  | Silk Road trade cultural exchange
+[BM25 only (no PageRank)] Q22  P@5=0.600  P@10=0.400  F1@30=0.213  HM=0.315  | Industrial Revolution steam engines
+[BM25 only (no PageRank)] Q23  P@5=0.800  P@10=0.600  F1@30=0.380  HM=0.515  | Green Revolution agriculture yield
+[BM25 only (no PageRank)] Q24  P@5=0.200  P@10=0.100  F1@30=0.119  HM=0.150  | Quantum computing future technology
+[BM25 only (no PageRank)] Q25  P@5=0.400  P@10=0.500  F1@30=0.293  HM=0.338  | Viking exploration North America
+[BM25 only (no PageRank)] Q26  P@5=0.400  P@10=0.200  F1@30=0.103  HM=0.163  | Roman aqueducts engineering innovation
+[BM25 only (no PageRank)] Q27  P@5=0.800  P@10=0.500  F1@30=0.301  HM=0.438  | Coffee history Ethiopia trade
+[BM25 only (no PageRank)] Q28  P@5=0.800  P@10=0.900  F1@30=0.432  HM=0.561  | Stonehenge prehistoric monument
+[BM25 only (no PageRank)] Q29  P@5=1.000  P@10=0.700  F1@30=0.389  HM=0.560  | Photography invention Daguerre
+[BM25 only (no PageRank)] Q30  P@5=0.400  P@10=0.200  F1@30=0.053  HM=0.094  | Ballet origins France Russia
+
+== Averages for BM25 only (no PageRank) ==
+avg P@5   = 0.5067
+avg P@10  = 0.4333
+avg F1@30 = 0.2617
+avg HM    = 0.3271
+
+[BM25 + PageRank (alpha=0.15)] Q01  P@5=0.200  P@10=0.200  F1@30=0.132  HM=0.159  | Mount Everest climbing expeditions
+[BM25 + PageRank (alpha=0.15)] Q02  P@5=0.600  P@10=0.600  F1@30=0.377  HM=0.463  | Great Fire of London 1666
+[BM25 + PageRank (alpha=0.15)] Q03  P@5=0.600  P@10=0.400  F1@30=0.278  HM=0.380  | Nanotechnology materials science
+[BM25 + PageRank (alpha=0.15)] Q04  P@5=0.200  P@10=0.200  F1@30=0.143  HM=0.167  | Fossil fuels climate change
+[BM25 + PageRank (alpha=0.15)] Q05  P@5=0.800  P@10=0.900  F1@30=0.507  HM=0.621  | DNA double helix discovery
+[BM25 + PageRank (alpha=0.15)] Q06  P@5=1.000  P@10=1.000  F1@30=0.466  HM=0.636  | Printing press invention Gutenberg
+[BM25 + PageRank (alpha=0.15)] Q07  P@5=0.000  P@10=0.100  F1@30=0.125  HM=0.000  | Ancient Egypt pyramids pharaohs
+[BM25 + PageRank (alpha=0.15)] Q08  P@5=0.800  P@10=0.600  F1@30=0.361  HM=0.498  | Gothic literature Mary Shelley
+[BM25 + PageRank (alpha=0.15)] Q09  P@5=0.800  P@10=0.500  F1@30=0.274  HM=0.408  | Robotics automation industry
+[BM25 + PageRank (alpha=0.15)] Q10  P@5=0.000  P@10=0.000  F1@30=0.025  HM=0.000  | Television invention broadcast media
+[BM25 + PageRank (alpha=0.15)] Q11  P@5=0.400  P@10=0.600  F1@30=0.432  HM=0.416  | Wright brothers first flight
+[BM25 + PageRank (alpha=0.15)] Q12  P@5=0.000  P@10=0.000  F1@30=0.000  HM=0.000  | Steam locomotive transportation history
+[BM25 + PageRank (alpha=0.15)] Q13  P@5=0.200  P@10=0.100  F1@30=0.203  HM=0.201  | Currency history gold standard
+[BM25 + PageRank (alpha=0.15)] Q14  P@5=0.400  P@10=0.300  F1@30=0.160  HM=0.229  | Renaissance art Leonardo da Vinci
+[BM25 + PageRank (alpha=0.15)] Q15  P@5=0.200  P@10=0.300  F1@30=0.278  HM=0.233  | Shakespeare plays Elizabethan theatre
+[BM25 + PageRank (alpha=0.15)] Q16  P@5=0.800  P@10=0.500  F1@30=0.184  HM=0.299  | Solar eclipse astronomy observation
+[BM25 + PageRank (alpha=0.15)] Q17  P@5=0.400  P@10=0.200  F1@30=0.184  HM=0.252  | Renaissance architecture Florence Italy
+[BM25 + PageRank (alpha=0.15)] Q18  P@5=0.400  P@10=0.600  F1@30=0.464  HM=0.430  | Impressionism Monet Renoir
+[BM25 + PageRank (alpha=0.15)] Q19  P@5=0.800  P@10=0.600  F1@30=0.351  HM=0.488  | Samurai code Bushido Japan
+[BM25 + PageRank (alpha=0.15)] Q20  P@5=0.800  P@10=0.600  F1@30=0.338  HM=0.475  | Fossil record paleontology evidence
+[BM25 + PageRank (alpha=0.15)] Q21  P@5=0.600  P@10=0.700  F1@30=0.286  HM=0.387  | Silk Road trade cultural exchange
+[BM25 + PageRank (alpha=0.15)] Q22  P@5=0.600  P@10=0.400  F1@30=0.213  HM=0.315  | Industrial Revolution steam engines
+[BM25 + PageRank (alpha=0.15)] Q23  P@5=0.800  P@10=0.600  F1@30=0.380  HM=0.515  | Green Revolution agriculture yield
+[BM25 + PageRank (alpha=0.15)] Q24  P@5=0.200  P@10=0.100  F1@30=0.119  HM=0.150  | Quantum computing future technology
+[BM25 + PageRank (alpha=0.15)] Q25  P@5=0.400  P@10=0.500  F1@30=0.293  HM=0.338  | Viking exploration North America
+[BM25 + PageRank (alpha=0.15)] Q26  P@5=0.400  P@10=0.200  F1@30=0.103  HM=0.163  | Roman aqueducts engineering innovation
+[BM25 + PageRank (alpha=0.15)] Q27  P@5=0.800  P@10=0.500  F1@30=0.301  HM=0.438  | Coffee history Ethiopia trade
+[BM25 + PageRank (alpha=0.15)] Q28  P@5=0.800  P@10=0.900  F1@30=0.432  HM=0.561  | Stonehenge prehistoric monument
+[BM25 + PageRank (alpha=0.15)] Q29  P@5=1.000  P@10=0.700  F1@30=0.389  HM=0.560  | Photography invention Daguerre
+[BM25 + PageRank (alpha=0.15)] Q30  P@5=0.400  P@10=0.200  F1@30=0.053  HM=0.094  | Ballet origins France Russia
+
+== Averages for BM25 + PageRank (alpha=0.15) ==
+avg P@5   = 0.5133
+avg P@10  = 0.4367
+avg F1@30 = 0.2617
+avg HM    = 0.3291
+
+Saved:
+ - per_query_quality.csv
+ - summary_quality.csv
+ - quality_versions.png

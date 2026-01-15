@@ -1,0 +1,61 @@
+variant,query,latency_ms_avg,results_count
+gcp_seq_bm25_pr,Mount Everest climbing expeditions,1342.55,100
+gcp_seq_bm25_pr,Great Fire of London 1666,6962.03,100
+gcp_seq_bm25_pr,Nanotechnology materials science,2663.34,100
+gcp_seq_bm25_pr,Fossil fuels climate change,2681.72,100
+gcp_seq_bm25_pr,DNA double helix discovery,1923.18,100
+gcp_seq_bm25_pr,Printing press invention Gutenberg,2645.85,100
+gcp_seq_bm25_pr,Ancient Egypt pyramids pharaohs,1778.88,100
+gcp_seq_bm25_pr,Gothic literature Mary Shelley,2754.88,100
+gcp_seq_bm25_pr,Robotics automation industry,1756.97,100
+gcp_seq_bm25_pr,Television invention broadcast media,5147.79,100
+gcp_seq_bm25_pr,Wright brothers first flight,2100.19,100
+gcp_seq_bm25_pr,Steam locomotive transportation history,1380.99,100
+gcp_seq_bm25_pr,Currency history gold standard,3182.35,100
+gcp_seq_bm25_pr,Renaissance art Leonardo da Vinci,2811.76,100
+gcp_seq_bm25_pr,Shakespeare plays Elizabethan theatre,3008.36,100
+gcp_seq_bm25_pr,Solar eclipse astronomy observation,1004.44,100
+gcp_seq_bm25_pr,Renaissance architecture Florence Italy,2988.34,100
+gcp_seq_bm25_pr,Impressionism Monet Renoir,422.86,100
+gcp_seq_bm25_pr,Samurai code Bushido Japan,2667.89,100
+gcp_seq_bm25_pr,Fossil record paleontology evidence,3965.78,100
+gcp_seq_bm25_pr,Silk Road trade cultural exchange,5742.73,100
+gcp_seq_bm25_pr,Industrial Revolution steam engines,2386.29,100
+gcp_seq_bm25_pr,Green Revolution agriculture yield,3294.98,100
+gcp_seq_bm25_pr,Quantum computing future technology,3582.45,100
+gcp_seq_bm25_pr,Viking exploration North America,7293.06,100
+gcp_seq_bm25_pr,Roman aqueducts engineering innovation,2691.34,100
+gcp_seq_bm25_pr,Coffee history Ethiopia trade,1764.59,100
+gcp_seq_bm25_pr,Stonehenge prehistoric monument,932.51,100
+gcp_seq_bm25_pr,Photography invention Daguerre,847.28,100
+gcp_seq_bm25_pr,Ballet origins France Russia,4088.58,100
+gcp_thr5_bm25_pr,Mount Everest climbing expeditions,1272.45,100
+gcp_thr5_bm25_pr,Great Fire of London 1666,6909.13,100
+gcp_thr5_bm25_pr,Nanotechnology materials science,2630.98,100
+gcp_thr5_bm25_pr,Fossil fuels climate change,2556.28,100
+gcp_thr5_bm25_pr,DNA double helix discovery,1839.74,100
+gcp_thr5_bm25_pr,Printing press invention Gutenberg,2461.3,100
+gcp_thr5_bm25_pr,Ancient Egypt pyramids pharaohs,1569.08,100
+gcp_thr5_bm25_pr,Gothic literature Mary Shelley,2668.91,100
+gcp_thr5_bm25_pr,Robotics automation industry,1733.68,100
+gcp_thr5_bm25_pr,Television invention broadcast media,5192.97,100
+gcp_thr5_bm25_pr,Wright brothers first flight,2034.74,100
+gcp_thr5_bm25_pr,Steam locomotive transportation history,1240.28,100
+gcp_thr5_bm25_pr,Currency history gold standard,3130.02,100
+gcp_thr5_bm25_pr,Renaissance art Leonardo da Vinci,2672.87,100
+gcp_thr5_bm25_pr,Shakespeare plays Elizabethan theatre,2830.69,100
+gcp_thr5_bm25_pr,Solar eclipse astronomy observation,838.57,100
+gcp_thr5_bm25_pr,Renaissance architecture Florence Italy,2864.44,100
+gcp_thr5_bm25_pr,Impressionism Monet Renoir,238.02,100
+gcp_thr5_bm25_pr,Samurai code Bushido Japan,2482.26,100
+gcp_thr5_bm25_pr,Fossil record paleontology evidence,6209.3,100
+gcp_thr5_bm25_pr,Silk Road trade cultural exchange,11343.43,100
+gcp_thr5_bm25_pr,Industrial Revolution steam engines,4485.08,100
+gcp_thr5_bm25_pr,Green Revolution agriculture yield,6257.92,100
+gcp_thr5_bm25_pr,Quantum computing future technology,6504.29,100
+gcp_thr5_bm25_pr,Viking exploration North America,14661.04,100
+gcp_thr5_bm25_pr,Roman aqueducts engineering innovation,5252.02,100
+gcp_thr5_bm25_pr,Coffee history Ethiopia trade,3084.27,100
+gcp_thr5_bm25_pr,Stonehenge prehistoric monument,1470.45,100
+gcp_thr5_bm25_pr,Photography invention Daguerre,1439.35,100
+gcp_thr5_bm25_pr,Ballet origins France Russia,7973.29,100

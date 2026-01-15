@@ -1,0 +1,3 @@
+variant,n_queries,mean_ms,median_ms,p90_ms,p95_ms,parallel_bm25,max_workers,alpha_pagerank,k1,b,postings_prefix,metadata_prefix
+gcp_seq_bm25_pr,30,2860.47,2674.8,5207.28,6413.34,False,1,0.15,1.2,0.75,cache/postings_cache,cache/meta_cache
+gcp_thr5_bm25_pr,30,3861.56,2670.89,7015.55,9826.87,True,5,0.15,1.2,0.75,cache/postings_cache,cache/meta_cache

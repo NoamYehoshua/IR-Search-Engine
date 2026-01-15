@@ -1,0 +1,42 @@
+param(
+  [string]$Config = "bench_config_local.json",
+  [string]$Queries = "..\queries\queries_train.json",
+  [string]$OutDir = "bench_out",
+  [int]$Warmup = 1,
+  [int]$Repeats = 1,
+  [int]$Limit = 0,
+  [string]$GcpCreds = ""
+)
+
+$ErrorActionPreference = "Stop"
+
+# Go to this script's directory: evaluation/runtime
+Set-Location $PSScriptRoot
+
+# Optional: set creds file path
+if ($GcpCreds -ne "") {
+  $env:GOOGLE_APPLICATION_CREDENTIALS = $GcpCreds
+  Write-Host "Using GOOGLE_APPLICATION_CREDENTIALS=$env:GOOGLE_APPLICATION_CREDENTIALS"
+} else {
+  Write-Host "GOOGLE_APPLICATION_CREDENTIALS not set in this script. Using existing env / gcloud ADC if available."
+}
+
+# Ensure local cache dirs exist (repo-local)
+$repoRoot = Resolve-Path "..\..\.."
+$cacheDir = Join-Path $repoRoot ".cache"
+New-Item -ItemType Directory -Force -Path $cacheDir | Out-Null
+
+# Run benchmark
+$cmd = @(
+  "python", "-u", "benchmark_local.py",
+  "--config", $Config,
+  "--queries", $Queries,
+  "--out_dir", $OutDir,
+  "--warmup", "$Warmup",
+  "--repeats", "$Repeats"
+)
+
+if ($Limit -gt 0) { $cmd += @("--limit", "$Limit") }
+
+Write-Host "Running:" ($cmd -join " ")
+& $cmd[0] $cmd[1..($cmd.Length-1)]

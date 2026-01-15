@@ -1,0 +1,21 @@
+[Unit]
+Description=IR Search Frontend (Flask)
+After=network.target
+
+[Service]
+User=YOUR_LINUX_USER_HERE
+WorkingDirectory=/home/YOUR_LINUX_USER_HERE/ir_app
+
+EnvironmentFile=/home/YOUR_LINUX_USER_HERE/ir_app/app.env
+
+# NOTE: Customize this service file (user, paths, env file) for your VM.
+ExecStartPre=/home/YOUR_LINUX_USER_HERE/venv/bin/python -u /home/YOUR_LINUX_USER_HERE/ir_app/prepare_frontend_cache.py
+
+# NOTE: Customize this service file (user, paths, env file) for your VM.
+ExecStart=/home/YOUR_LINUX_USER_HERE/venv/bin/python -u /home/YOUR_LINUX_USER_HERE/ir_app/search_frontend.py
+
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

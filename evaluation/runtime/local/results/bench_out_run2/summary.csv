@@ -1,0 +1,5 @@
+variant,n_queries,mean_ms,median_ms,p90_ms,p95_ms,parallel_bm25,max_workers,alpha_pagerank,k1,b,postings_prefix,metadata_prefix
+mini_seq_bm25_pr,30,12083.66,13236.07,14711.31,16138.20,False,1,0.15,1.2,0.75,runs/mini_colab_v2/postings,runs/mini_colab_v2/meta
+mini_thr5_bm25_pr,30,2377.17,2363.90,2636.18,2678.64,True,5,0.15,1.2,0.75,runs/mini_colab_v2/postings,runs/mini_colab_v2/meta
+full_seq_bm25_pr,30,21434.30,22526.86,29046.08,32436.09,False,1,0.15,1.2,0.75,postings_gcp,metadata
+full_thr5_bm25_pr,30,7400.43,6186.86,11367.20,14257.32,True,5,0.15,1.2,0.75,postings_gcp,metadata

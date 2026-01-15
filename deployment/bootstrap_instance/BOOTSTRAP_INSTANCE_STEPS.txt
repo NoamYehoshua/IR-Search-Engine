@@ -1,0 +1,126 @@
+Bootstrap the VM (make the search engine run as a Linux service)
+=======================================================
+
+Run the commands **on the VM** (after you can SSH into it).
+
+Assumptions
+-----------
+- You already created the VM using `deployment/create_instance/`.
+- Your VM user is: <USER>
+- You copied the project files to `/home/<USER>/` using `gcloud compute scp` (see below).
+
+-------------------------------------------------------
+A) Upload the required files to the VM (from your local machine)
+-------------------------------------------------------
+
+From your repo root (or from the folder where the files exist), run:
+
+1) Copy the app + deployment files:
+
+   gcloud compute scp \
+     app/search_frontend.py \
+     app/prepare_frontend_cache.py \
+     app/inverted_index_gcp.py \
+     app/index_store_cached.py \
+     app/metadata_store.py \
+     app/tokenizer.py \
+     deployment/bootstrap_instance/app.env \
+     deployment/bootstrap_instance/ir-search.service \
+     <USER>@<INSTANCE_NAME>:/home/<USER>/ \
+     --zone <ZONE>
+
+Notes:
+- If your code has more python modules used by `search_frontend.py`, include them in the same SCP command.
+- If you keep the files under different folders in your repo, just adjust the left-hand paths.
+
+-------------------------------------------------------
+B) SSH into the VM
+-------------------------------------------------------
+
+gcloud compute ssh <USER>@<INSTANCE_NAME> --zone <ZONE>
+
+-------------------------------------------------------
+C) Create the application folder and move files into it
+-------------------------------------------------------
+
+mkdir -p ~/ir_app
+
+# Move all uploaded files into ~/ir_app
+mv ~/search_frontend.py ~/prepare_frontend_cache.py ~/app.env ~/ir-search.service \
+   ~/index_store_cached.py ~/inverted_index_gcp.py ~/metadata_store.py ~/tokenizer.py \
+   ~/ir_app/ 2>/dev/null || true
+
+cd ~/ir_app
+ls -lah
+
+-------------------------------------------------------
+D) Install Python venv dependencies (only once per VM)
+-------------------------------------------------------
+
+sudo apt update
+sudo apt install -y python3-venv python3-pip
+
+python3 -m venv ~/venv
+source ~/venv/bin/activate
+pip install -U pip
+
+# Keep this list minimal and deterministic
+pip install flask google-cloud-storage numpy pandas
+
+-------------------------------------------------------
+E) Configure the environment variables (IMPORTANT)
+-------------------------------------------------------
+
+# If you edited app.env on Windows, it might include CRLF. This fixes it:
+sed -i 's/\r$//' ~/ir_app/app.env
+
+# Load env vars into your current shell (useful for manual tests)
+set -a
+. ~/ir_app/app.env
+set +a
+
+What to edit inside `app.env`:
+- BUCKET_NAME: your GCS bucket name
+- POSTINGS_PREFIX: prefix/path for postings (e.g., postings_gcp or runs/<run_id>/postings)
+- METADATA_PREFIX: prefix/path for metadata (e.g., metadata or runs/<run_id>/meta)
+- CACHE_DIR: local cache folder on the VM (recommended: /home/<USER>/cache)
+- GCP_PROJECT_ID: your GCP project id (only needed if your code uses it explicitly)
+
+-------------------------------------------------------
+F) Build the local cache on the VM (download required artifacts)
+-------------------------------------------------------
+
+python ~/ir_app/prepare_frontend_cache.py
+
+Quick sanity checks:
+ls -lah "$CACHE_DIR/postings_cache/index.pkl"
+ls -lah "$CACHE_DIR/meta_cache/" | egrep "pagerank|pageviews|corpus_stats" || true
+ls -l "$CACHE_DIR/postings_cache/" || true
+ls -l "$CACHE_DIR/meta_cache/" || true
+
+-------------------------------------------------------
+G) Install and enable the systemd service
+-------------------------------------------------------
+
+sudo cp ~/ir_app/ir-search.service /etc/systemd/system/ir-search.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now ir-search.service
+
+Check status/logs:
+sudo systemctl status ir-search.service --no-pager
+sudo journalctl -u ir-search.service -f
+
+-------------------------------------------------------
+H) Test the server
+-------------------------------------------------------
+
+Local (from inside the VM):
+curl "http://127.0.0.1:8080/search?query=hello+world"
+
+Also check the port:
+ss -lntp | grep 8080
+
+Public (from your laptop):
+http://<EXTERNAL_IP>:8080/search?query=hello+world
+
+Done.

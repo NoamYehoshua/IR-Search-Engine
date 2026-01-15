@@ -1,0 +1,60 @@
+{
+  "runs": [
+    {
+      "name": "mini_seq_bm25_pr",
+      "bucket_name": "YOUR_BUCKET_NAME",
+      "postings_prefix": "runs/mini_colab_v2/postings",
+      "metadata_prefix": "runs/mini_colab_v2/meta",
+      "index_cache_dir": ".cache/index_mini",
+      "metadata_cache_dir": ".cache/metadata_mini",
+      "parallel_bm25": false,
+      "max_workers": 1,
+      "alpha_pagerank": 0.15,
+      "k1": 1.2,
+      "b": 0.75,
+      "max_results": 100
+    },
+    {
+      "name": "mini_thr5_bm25_pr",
+      "bucket_name": "YOUR_BUCKET_NAME",
+      "postings_prefix": "runs/mini_colab_v2/postings",
+      "metadata_prefix": "runs/mini_colab_v2/meta",
+      "index_cache_dir": ".cache/index_mini",
+      "metadata_cache_dir": ".cache/metadata_mini",
+      "parallel_bm25": true,
+      "max_workers": 5,
+      "alpha_pagerank": 0.15,
+      "k1": 1.2,
+      "b": 0.75,
+      "max_results": 100
+    },
+    {
+      "name": "full_seq_bm25_pr",
+      "bucket_name": "YOUR_BUCKET_NAME",
+      "postings_prefix": "postings_gcp",
+      "metadata_prefix": "metadata",
+      "index_cache_dir": ".cache/index_full",
+      "metadata_cache_dir": ".cache/metadata_full",
+      "parallel_bm25": false,
+      "max_workers": 1,
+      "alpha_pagerank": 0.15,
+      "k1": 1.2,
+      "b": 0.75,
+      "max_results": 100
+    },
+    {
+      "name": "full_thr5_bm25_pr",
+      "bucket_name": "YOUR_BUCKET_NAME",
+      "postings_prefix": "postings_gcp",
+      "metadata_prefix": "metadata",
+      "index_cache_dir": ".cache/index_full",
+      "metadata_cache_dir": ".cache/metadata_full",
+      "parallel_bm25": true,
+      "max_workers": 5,
+      "alpha_pagerank": 0.15,
+      "k1": 1.2,
+      "b": 0.75,
+      "max_results": 100
+    }
+  ]
+}

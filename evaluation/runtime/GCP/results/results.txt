@@ -1,0 +1,63 @@
+===== MODE: SEQ | queries=30 =====
+SEQ     01      1.342547        Mount Everest climbing expeditions
+SEQ     02      6.962034        Great Fire of London 1666
+SEQ     03      2.663344        Nanotechnology materials science
+SEQ     04      2.681724        Fossil fuels climate change
+SEQ     05      1.923176        DNA double helix discovery
+SEQ     06      2.645851        Printing press invention Gutenberg
+SEQ     07      1.778875        Ancient Egypt pyramids pharaohs
+SEQ     08      2.754879        Gothic literature Mary Shelley
+SEQ     09      1.756966        Robotics automation industry
+SEQ     10      5.147794        Television invention broadcast media
+SEQ     11      2.100194        Wright brothers first flight
+SEQ     12      1.380987        Steam locomotive transportation history
+SEQ     13      3.182353        Currency history gold standard
+SEQ     14      2.811761        Renaissance art Leonardo da Vinci
+SEQ     15      3.008364        Shakespeare plays Elizabethan theatre
+SEQ     16      1.004437        Solar eclipse astronomy observation
+SEQ     17      2.988335        Renaissance architecture Florence Italy
+SEQ     18      0.422864        Impressionism Monet Renoir
+SEQ     19      2.667892        Samurai code Bushido Japan
+SEQ     20      3.965779        Fossil record paleontology evidence
+SEQ     21      5.742726        Silk Road trade cultural exchange
+SEQ     22      2.386289        Industrial Revolution steam engines
+SEQ     23      3.294984        Green Revolution agriculture yield
+SEQ     24      3.582449        Quantum computing future technology
+SEQ     25      7.293065        Viking exploration North America
+SEQ     26      2.691344        Roman aqueducts engineering innovation
+SEQ     27      1.764589        Coffee history Ethiopia trade
+SEQ     28      0.932509        Stonehenge prehistoric monument
+SEQ     29      0.847275        Photography invention Daguerre
+SEQ     30      4.088578        Ballet origins France Russia
+
+===== MODE: THR5 | queries=30 =====
+THR5    01      1.272450        Mount Everest climbing expeditions
+THR5    02      6.909133        Great Fire of London 1666
+THR5    03      2.630983        Nanotechnology materials science
+THR5    04      2.556281        Fossil fuels climate change
+THR5    05      1.839743        DNA double helix discovery
+THR5    06      2.461297        Printing press invention Gutenberg
+THR5    07      1.569081        Ancient Egypt pyramids pharaohs
+THR5    08      2.668909        Gothic literature Mary Shelley
+THR5    09      1.733678        Robotics automation industry
+THR5    10      5.192966        Television invention broadcast media
+THR5    11      2.034743        Wright brothers first flight
+THR5    12      1.240277        Steam locomotive transportation history
+THR5    13      3.130015        Currency history gold standard
+THR5    14      2.672872        Renaissance art Leonardo da Vinci
+THR5    15      2.830688        Shakespeare plays Elizabethan theatre
+THR5    16      0.838567        Solar eclipse astronomy observation
+THR5    17      2.864437        Renaissance architecture Florence Italy
+THR5    18      0.238022        Impressionism Monet Renoir
+THR5    19      2.482261        Samurai code Bushido Japan
+THR5    20      6.209300        Fossil record paleontology evidence
+THR5    21      11.343433       Silk Road trade cultural exchange
+THR5    22      4.485080        Industrial Revolution steam engines
+THR5    23      6.257920        Green Revolution agriculture yield
+THR5    24      6.504289        Quantum computing future technology
+THR5    25      14.661037       Viking exploration North America
+THR5    26      5.252023        Roman aqueducts engineering innovation
+THR5    27      3.084273        Coffee history Ethiopia trade
+THR5    28      1.470447        Stonehenge prehistoric monument
+THR5    29      1.439347        Photography invention Daguerre
+THR5    30      7.973293        Ballet origins France Russia
