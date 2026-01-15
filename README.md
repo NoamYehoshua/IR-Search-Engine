@@ -1,14 +1,44 @@
 # IR Search Engine (Wiki) — Final Project
 
-This repository contains our end-to-end information retrieval system:
+This repository contains our end-to-end Information Retrieval system for English Wikipedia:
 - **Index building** (Mini corpus in Colab + Full Wikipedia corpus in GCP)
-- **Search engine backend** (BM25, optional PageRank re-ranking)
-- **Deployment on a GCP VM** (systemd service + caching step)
+- **Search backend** (BM25, optional PageRank re-ranking, threaded BM25)
+- **Deployment on a GCP VM** (systemd service + cache preparation)
 - **Evaluation** (quality metrics + runtime/latency benchmarks)
 
-> **Live demo URL:** `http://<EXTERNAL_IP>:8080/search?query=hello+world`  
-> **GCS Bucket:** `gs://207400714-task3` (public)  
+> **Live demo URL (fill for submission):** `http://<EXTERNAL_IP>:8080/search?query=hello+world`  
+> **Public GCS bucket:** `gs://207400714-task3`  
 > Replace bucket/prefix values when running on a different setup.
+
+---
+
+## Ranking logic and evaluation approach
+
+### Core retrieval model
+Our best `/search` method ranks documents using **BM25** over the article body, with the same tokenization + stop-word removal used when building the index (to keep term spaces consistent).
+
+### Optional PageRank re-ranking (best version)
+We also tested a combined score that mixes BM25 with a popularity/salience signal (**PageRank**).  
+In our experiments, using **alpha = 0.15** improved (or did not degrade) the quality metrics compared to BM25 alone.
+
+Conceptually:
+- **BM25-only**: rank by BM25 score.
+- **BM25 + PageRank**: rank by a weighted combination, where `alpha` controls PageRank contribution (default `0.15`).
+
+### Parallelization
+To improve latency, BM25 can be computed using a `ThreadPoolExecutor`:
+- each query term is handled by a separate thread,
+- the thread loads the posting list for that term and contributes to document scores,
+- results are accumulated and sorted.
+
+### How we evaluate quality
+We evaluate retrieval quality over `queries_train.json` using:
+- **Precision@5 (P@5)**
+- **Precision@10 (P@10)**
+- **F1@30**
+- **HM** = harmonic mean(P@5, F1@30) — used as the main summary score.
+
+See `evaluation/performance/` for scripts and output CSVs.
 
 ---
 
@@ -16,12 +46,13 @@ This repository contains our end-to-end information retrieval system:
 
 ```
 app/
-  full/   # server code configured for the full index (GCP)
+  full/   # server code configured for the full index (GCP artifacts)
   mini/   # server code configured for the mini index (Colab artifacts)
 
 data_structures/
-  full/   # notebooks/scripts to build the full index + metadata on GCP
-  mini/   # notebooks/scripts to build the mini index on Colab
+  full/         # notebooks/scripts to build the full index + metadata on GCP
+  mini/         # notebooks/scripts to build the mini index on Colab
+  Data_Example/ # small example artifacts (for sanity checks & demos)
 
 deployment/
   create_instance/     # create VM + open firewall + startup script
@@ -30,66 +61,90 @@ deployment/
 evaluation/
   performance/   # quality evaluation + plots
   runtime/       # latency benchmarks (local + GCP/SSH)
-  training queries/queries_train.json   # qrels (training queries)
+  training queries/queries_train.json   # training queries + relevance lists
 ```
 
 ---
 
-## Search engine overview
+## Data artifacts (GCS bucket) and how we load them
 
-### Data artifacts (stored in GCS)
-We store artifacts in a bucket:
-- **Inverted index** (`index.pkl` + postings `.bin` files)
-- **Metadata** (pickle files):  
-  `doc_id -> title`, `doc_id -> doc_len`, `corpus_stats (N, avgdl)`, plus ranking signals (e.g., PageRank)
+Our system separates **index storage** (postings) from **metadata** (RAM-friendly files).
 
-Tokenization and stop-word removal are consistent across all artifacts to guarantee term alignment.
+### 1) Postings / inverted index (large, stored in GCS)
+Stored under a postings prefix (e.g., `postings_gcp/` or `runs/<run_id>/postings/`):
+- `index.pkl`  
+  The `InvertedIndex` object containing:
+  - `df` (document frequency per term)
+  - `posting_locs` (file locations for each term’s posting list)
+- postings binary files: `*_*.bin`  
+  Contain packed `(doc_id, tf)` tuples for each term.
 
-### Modular backend design (code)
-- **Tokenizer** — tokenization + stopword removal (consistent with earlier course assignments).
-- **Index store** — loads postings lists from GCS *on demand* (lazy loading) to save RAM.
-- **Metadata store** — loads metadata into RAM for fast access (titles, lengths, corpus stats, PageRank, etc.).
-- **Evaluator** — computes BM25; optionally combines BM25 with PageRank using a weighted formula.  
-  Includes an optional threaded BM25 computation using `ThreadPoolExecutor`.
+**How it’s used in code**
+- `IndexStore` / `index_store_cached.py` loads `index.pkl` once, then reads posting lists **on demand** using `inverted_index_gcp.py` (lazy I/O to reduce RAM usage).
+
+### 2) Metadata (small-to-medium, loaded to RAM)
+Stored under a metadata prefix (e.g., `metadata/` or `runs/<run_id>/meta/`):
+- `titles.pkl` — `doc_id -> title` (used to return titles)
+- `doc_len.pkl` — `doc_id -> document length` (needed for BM25 normalization)
+- `corpus_stats.pkl` — includes `N` (number of documents) and `avgdl` (average document length)
+- `pagerank.pkl` — `doc_id -> PageRank score` (used when mixing BM25 + PR)
+
+**How it’s used in code**
+- `metadata_store.py` loads these pickles to RAM and exposes a small API used by `evaluator.py`.
+
+### 3) Local cache on the VM (no query-time caching)
+To avoid repeated downloads from GCS on each VM restart, we build a **local cache on startup**:
+- `prepare_frontend_cache.py` downloads the needed artifacts into `CACHE_DIR` before the server starts.
+- This is done once during service startup (`ExecStartPre=`), then the server runs normally.
 
 ---
 
-## Running the server
+## Data_Example (in this repo)
+`data_structures/Data_Example/` contains a small subset of artifacts for quick validation:
+- `corpus_stats.pkl`, `doc_len.pkl`, `index.pkl`, `pagerank.pkl`
 
-### Local quick run (Mini / Full)
-The server is a Flask app in `app/<mini|full>/search_frontend.py`.
+> Note: `titles.pkl` can be very large (often > 100MB), so we keep it in the GCS bucket and avoid committing it to GitHub.
 
-Typical run (example):
+---
+
+## Running the server (local)
+
+The Flask server entry point is:
+- `app/full/search_frontend.py` (full index)
+- `app/mini/search_frontend.py` (mini index)
+
+Example:
 ```bash
 python -u app/full/search_frontend.py
 ```
 
-> The server expects environment variables (bucket + prefixes + cache path). See `deployment/bootstrap_instance/app.env` for the required keys.
+The server expects environment variables (bucket, prefixes, cache path).  
+See `deployment/bootstrap_instance/app.env` (or create your own `app.env` from the template described there).
 
 ---
 
-## Deployment on GCP
+## Deployment on GCP (recommended for submission)
 
 ### 1) Create the VM (one-time)
 See:
 - `deployment/create_instance/README_create_instance.md`
 
-This explains:
+Includes:
 - what to fill in `run_frontend_in_gcp.sh` and `startup_script_gcp.sh`
 - how to create a VM with a public IP and open port `8080`
 
-### 2) Bootstrap the VM
+### 2) Bootstrap the VM (make it a service)
 See:
 - `deployment/bootstrap_instance/README_boostrap.md`
 - `deployment/bootstrap_instance/BOOTSTRAP_INSTANCE_STEPS.txt`
 
 You will:
-1. Upload the required files to the VM (app + env + service).
-2. Create a venv on the VM.
-3. Run `prepare_frontend_cache.py` to build local caches.
-4. Install and start `ir-search.service` (systemd).
+1. Upload required files to the VM (app code + `app.env` + `ir-search.service`)
+2. Create a venv on the VM
+3. Run `prepare_frontend_cache.py` to build local caches
+4. Install and start `ir-search.service` (systemd)
 
-After that, the server stays up even if you disconnect SSH:
+Useful commands:
 ```bash
 sudo systemctl status ir-search.service --no-pager
 sudo journalctl -u ir-search.service -f
@@ -106,14 +161,10 @@ Folder:
 Script:
 - `evaluate_quality_and_plot.py`
 
-Outputs (examples):
-- `per_query_quality.csv`
-- `summary_quality.csv`
-- `quality_versions.png`
-
-Metrics:
-- **P@5**, **P@10**, **F1@30**
-- **HM** = harmonic mean(P@5, F1@30) — used as the main “quality score”.
+Outputs:
+- `results/per_query_quality.csv`
+- `results/summary_quality.csv`
+- `results/results.txt`
 
 See:
 - `evaluation/performance/README_evaluate.txt`
@@ -122,39 +173,14 @@ See:
 Folder:
 - `evaluation/runtime/`
 
-Local benchmark (Mini/Full comparisons):
+Local:
 - `evaluation/runtime/local/benchmark_local.py`
-- config example: `bench_config_local_example.json`
+- `evaluation/runtime/local/bench_config_local_example.json`
+- `evaluation/runtime/local/run_benchmark_local.txt`
 
-GCP VM benchmark (SSH):
+GCP VM (via SSH):
 - `evaluation/runtime/GCP/bench_ssh_simple.py`
 - `evaluation/runtime/GCP/README_bench_ssh.txt`
-
----
-
-## Configuration (what you must fill)
-
-### Environment file (`app.env`)
-Used by the VM service (and can be used locally too). Typical keys:
-- `BUCKET_NAME`
-- `POSTINGS_PREFIX`
-- `METADATA_PREFIX`
-- `CACHE_DIR`
-- `GCP_PROJECT_ID` (only if your code uses it explicitly)
-
-### systemd service (`ir-search.service`)
-Must match your VM user and paths:
-- `User=...`
-- `WorkingDirectory=...`
-- `EnvironmentFile=...`
-- `ExecStartPre=...`
-- `ExecStart=...`
-
----
-
-## Notes / known behavior
-- **Threaded BM25** can be faster locally but not always faster on the GCP VM due to threading overhead vs. low in-region GCS latency.
-- PageRank integration improved quality slightly on some queries in our experiments.
 
 ---
 
