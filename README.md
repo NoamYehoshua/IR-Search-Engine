@@ -66,6 +66,37 @@ evaluation/
 
 ---
 
+## Major components (what each main file does)
+
+### App (server + ranking)
+- `app/*/search_frontend.py` — Flask server. Exposes `/search?query=...` and returns top results (doc_id + title).
+- `app/*/evaluator.py` — scoring/ranking logic: BM25 (and BM25+PageRank option) + optional threaded BM25.
+- `app/*/tokenizer.py` — tokenization and stop-word removal (must match the index-building logic).
+- `app/*/index_store_cached.py` — loads `index.pkl` and reads posting lists lazily (from GCS or local cache).
+- `app/*/metadata_store.py` — loads metadata pickles (titles, doc_len, corpus_stats, pagerank) into RAM.
+- `app/*/prepare_frontend_cache.py` — downloads artifacts from GCS into `CACHE_DIR` before the server starts.
+- `app/*/inverted_index_gcp.py` / `app/mini/inverted_index_colab.py` — index I/O utilities (read/write posting lists).
+
+### Index building (notebooks)
+- `data_structures/mini/Proj_IR_MiniIndex.ipynb` — builds a mini index (Colab-sized).
+- `data_structures/full/Full_Inverted_Index_PR_ass3.ipynb` — builds the full index + ranking signals on GCP.
+- `data_structures/full/CreateMetaDataFull.ipynb` — builds and saves metadata files for the full corpus.
+- `data_structures/Data_Example/` — small example artifacts for sanity checks (not the full dataset).
+
+### Deployment (GCP VM)
+- `deployment/create_instance/run_frontend_in_gcp.sh` — creates a VM, opens port 8080, prints SCP/SSH commands.
+- `deployment/create_instance/startup_script_gcp.sh` — startup script: installs Python and creates `~/venv`.
+- `deployment/bootstrap_instance/ir-search.service` — systemd service: runs cache-prep, then starts the Flask app.
+- `deployment/bootstrap_instance/app.env` — environment variables (bucket/prefixes/cache path).
+- `deployment/bootstrap_instance/BOOTSTRAP_INSTANCE_STEPS.txt` — exact bootstrap commands (copy/paste).
+
+### Evaluation
+- `evaluation/performance/evaluate_quality_and_plot.py` — runs queries, computes P@5/P@10/F1@30/HM, outputs CSV + plot.
+- `evaluation/runtime/local/benchmark_local.py` — local latency benchmark (config-driven).
+- `evaluation/runtime/GCP/bench_ssh_simple.py` — latency benchmark on the VM via SSH.
+
+---
+
 ## Data artifacts (GCS bucket) and how we load them
 
 Our system separates **index storage** (postings) from **metadata** (RAM-friendly files).
