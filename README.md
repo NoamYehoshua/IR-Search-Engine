@@ -6,8 +6,8 @@ This repository contains our end-to-end information retrieval system:
 - **Deployment on a GCP VM** (systemd service + caching step)
 - **Evaluation** (quality metrics + runtime/latency benchmarks)
 
-> **Live demo URL (fill for submission):** `http://<EXTERNAL_IP>:8080/search?query=hello+world`  
-> **GCS Bucket (submission bucket):** `gs://207400714-task3` (public)  
+> **Live demo URL:** `http://<EXTERNAL_IP>:8080/search?query=hello+world`  
+> **GCS Bucket:** `gs://207400714-task3` (public)  
 > Replace bucket/prefix values when running on a different setup.
 
 ---
@@ -68,7 +68,7 @@ python -u app/full/search_frontend.py
 
 ---
 
-## Deployment on GCP (recommended for submission)
+## Deployment on GCP
 
 ### 1) Create the VM (one-time)
 See:
@@ -78,7 +78,7 @@ This explains:
 - what to fill in `run_frontend_in_gcp.sh` and `startup_script_gcp.sh`
 - how to create a VM with a public IP and open port `8080`
 
-### 2) Bootstrap the VM (turn it into a service)
+### 2) Bootstrap the VM
 See:
 - `deployment/bootstrap_instance/README_boostrap.md`
 - `deployment/bootstrap_instance/BOOTSTRAP_INSTANCE_STEPS.txt`
